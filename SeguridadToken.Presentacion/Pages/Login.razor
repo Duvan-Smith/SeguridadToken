@@ -1,0 +1,46 @@
+﻿@page "/login"
+
+<PageTitle>Weather forecast</PageTitle>
+
+@using SeguridadToken.Dto
+@using SeguridadToken.Presentacion.Login
+@inject ILoginService LoginService
+
+<h1>Login</h1>
+
+@if (user == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                <td>@user?.FirstName</td>
+                <td>@user?.LastName</td>
+                <td>@user?.Email</td>
+                </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    private UserDto? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await LoginService.ActionLogin(new LoginDto{
+            User="admin",
+            Password="admin"
+        });
+        Environment.SetEnvironmentVariable("token", user.Token);
+    }
+}

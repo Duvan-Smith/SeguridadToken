@@ -21,8 +21,7 @@ public class LoginService : ILoginService
         StringContent content = new StringContent(JsonData, Encoding.UTF8, "application/json");
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        var response = await _httpClient.PostAsJsonAsync("Login/Login", content);
-        response.EnsureSuccessStatusCode();
+        var response = await _httpClient.PostAsync("Login/Login", content);
 
         var user = JsonConvert.DeserializeObject<UserDto>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
 

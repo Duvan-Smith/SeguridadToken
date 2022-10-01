@@ -2,8 +2,9 @@
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using SeguridadToken.Presentacion.Data
-@inject WeatherForecastService ForecastService
+@using SeguridadToken.Dto
+@using SeguridadToken.Presentacion.WeatherForecast
+@inject IWeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
 
@@ -39,10 +40,10 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private IEnumerable<WeatherForecastDto>? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        forecasts = await ForecastService.GetWeatherForecast();
     }
 }
