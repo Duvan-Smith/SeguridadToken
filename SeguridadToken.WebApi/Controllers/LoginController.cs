@@ -23,13 +23,23 @@ public class LoginController : ControllerBase
 
     [HttpPost(nameof(Login))]
     [AllowAnonymous]
-    public async Task<IActionResult> Login(LoginDto loginDto)
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var infoUsuario = await AutenticarUsuarioAsync(loginDto.User, loginDto.Password);
-        if (infoUsuario != null)
-            return Ok(new { token = GenerarTokenJWT(infoUsuario) });
-        else
-            return Unauthorized();
+        UserDto user = null;
+        try
+        {
+            var infoUsuario = await AutenticarUsuarioAsync(loginDto.User, loginDto.Password);
+            if (infoUsuario != null)
+                user = GenerarTokenJWT(infoUsuario);
+            else
+                throw new Exception("401");
+        }
+        catch (Exception ex)
+        {
+            user = new();
+            _logger.LogError("Error en login:" + ex.ToString());
+        }
+        return user;
     }
 
     private async Task<UserDto?> AutenticarUsuarioAsync(string user, string password)
@@ -47,7 +57,7 @@ public class LoginController : ControllerBase
         return null;
     }
 
-    private string GenerarTokenJWT(UserDto userDto)
+    private UserDto GenerarTokenJWT(UserDto userDto)
     {
         var _symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:ClaveSecreta"]));
         var _signingCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
@@ -71,6 +81,8 @@ public class LoginController : ControllerBase
 
         var _Token = new JwtSecurityToken(_Header, _Payload);
 
-        return new JwtSecurityTokenHandler().WriteToken(_Token);
+        userDto.Token = new JwtSecurityTokenHandler().WriteToken(_Token);
+
+        return userDto;
     }
 }
