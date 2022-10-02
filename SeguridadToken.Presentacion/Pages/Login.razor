@@ -2,9 +2,14 @@
 
 <PageTitle>Weather forecast</PageTitle>
 
+@using Blazored.SessionStorage
 @using SeguridadToken.Dto
 @using SeguridadToken.Presentacion.Login
-@inject ILoginService LoginService
+@using SeguridadToken.Presentacion.MyAuthentication
+@inject ILoginService loginService
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject ISessionStorageService sessionStorageService
+@inject NavigationManager navigationManage
 
 <h1>Iniciar sesión</h1>
 
@@ -43,6 +48,9 @@
     }
 
     private async Task<bool> ValidarUsuario(){
+        ((MyAuthenticationStateProviderService)authenticationStateProvider).UserAuthenticated(LoginUser.User);
+        await sessionStorageService.SetItemAsync("email",LoginUser.User);
+        navigationManage.NavigateTo("/index");
         return await Task.FromResult(true);
     }
 

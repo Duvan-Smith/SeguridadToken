@@ -1,4 +1,7 @@
+using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using SeguridadToken.Presentacion.Login;
+using SeguridadToken.Presentacion.MyAuthentication;
 using SeguridadToken.Presentacion.WeatherForecast;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +20,9 @@ builder.Services.AddHttpClient<IWeatherForecastService, WeatherForecastService>(
     client.BaseAddress = new Uri("https://localhost:7233/");
 });
 
+builder.Services.AddBlazoredSessionStorage();
+builder.Services.AddScoped<AuthenticationStateProvider, MyAuthenticationStateProviderService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +38,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
