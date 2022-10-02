@@ -5,15 +5,15 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.WebApi", "2.WebApi", "{50CC2B6F-ACCB-4BCF-BFA7-D69E571DDE4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeguridadToken.WebApi", "SeguridadToken.WebApi\SeguridadToken.WebApi.csproj", "{7ACF70AF-B89D-4053-B992-68A7BA29FD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeguridadToken.WebApi", "SeguridadToken.WebApi\SeguridadToken.WebApi.csproj", "{7ACF70AF-B89D-4053-B992-68A7BA29FD6F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Core", "3.Core", "{922191AB-7D83-475E-8E21-31E7EA24C7FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeguridadToken.Dto", "SeguridadToken.Dto\SeguridadToken.Dto.csproj", "{FF8BED47-E1C2-469F-9F42-B60995BF1F66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeguridadToken.Dto", "SeguridadToken.Dto\SeguridadToken.Dto.csproj", "{FF8BED47-E1C2-469F-9F42-B60995BF1F66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Presentacion", "1.Presentacion", "{187BBB8C-6E22-4975-AA49-CF2C8C282317}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeguridadToken.Presentacion", "SeguridadToken.Presentacion\SeguridadToken.Presentacion.csproj", "{4EEAC75F-07B9-4579-AC20-0303FFC7A9C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeguridadToken.Presentacion", "SeguridadToken.Presentacion\SeguridadToken.Presentacion.csproj", "{4EEAC75F-07B9-4579-AC20-0303FFC7A9C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

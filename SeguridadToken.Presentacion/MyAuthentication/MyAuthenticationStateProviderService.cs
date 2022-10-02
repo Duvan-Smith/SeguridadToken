@@ -51,4 +51,13 @@ public class MyAuthenticationStateProviderService : AuthenticationStateProvider
 
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
     }
+
+    public void Logout()
+    {
+        _sessionStorageService.RemoveItemAsync("email");
+        var identity = new ClaimsIdentity();
+        var user = new ClaimsPrincipal(identity);
+
+        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+    }
 }

@@ -1,0 +1,11 @@
+﻿@page "/CerrarSesion"
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject NavigationManager navigationManage
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        ((MyAuthenticationStateProviderService)authenticationStateProvider).Logout();
+        navigationManage.NavigateTo("/login");
+    }
+}
