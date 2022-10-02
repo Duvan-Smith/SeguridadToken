@@ -14,13 +14,13 @@
 <h1>Iniciar sesión</h1>
 
 <EditForm Model="@LoginUser" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator/>
+    <DataAnnotationsValidator />
     <div class="form-group row">
         <label for="Email">
             Email
         </label>
         <div>
-            <InputText id="Email" placeholder="Email" @bind-Value="LoginUser.User"/>
+            <InputText id="Email" placeholder="Email" @bind-Value="LoginUser.User" />
             <ValidationMessage For="@(()=>LoginUser.User)" />
         </div>
     </div>
@@ -29,38 +29,70 @@
             Password
         </label>
         <div>
-            <InputText id="Password" placeholder="Email" @bind-Value="LoginUser.Password"/>
+            <InputText id="Password" placeholder="Email" @bind-Value="LoginUser.Password" />
             <ValidationMessage For="@(()=>LoginUser.Password)" />
         </div>
     </div>
-    <tr/>
+    <tr />
     <div>
-        <input type="submit" value="Login" @onclick="ValidarUsuario"/>
+        <input type="submit" value="Login" @onclick="ValidarUsuario" />
     </div>
+    @if (MsmError != null)
+    {
+        <div>
+            @MsmError
+        </div>
+    }
 </EditForm>
 
 @code {
     public LoginDto LoginUser = new LoginDto();
     public UserDto? User;
+    public string? MsmError;
 
-    public void HandleValidSubmit(){
+    public void HandleValidSubmit()
+    {
 
     }
 
-    private async Task<bool> ValidarUsuario(){
-        ((MyAuthenticationStateProviderService)authenticationStateProvider).UserAuthenticated(LoginUser.User);
-        await sessionStorageService.SetItemAsync("email",LoginUser.User);
-        navigationManage.NavigateTo("/index");
-        return await Task.FromResult(true);
+    private async Task ValidarUsuario()
+    {
+        try
+        {
+            if (User?.Email != null && User?.Password != null)
+            {
+                User = await loginService.UserValidate(User);
+
+                ((MyAuthenticationStateProviderService)authenticationStateProvider).UserAuthenticated(User.Email);
+                await sessionStorageService.SetItemAsync("email", User.Email);
+                navigationManage.NavigateTo("/index");
+            }else{
+                User = await loginService.ActionLogin(LoginUser);
+
+                ((MyAuthenticationStateProviderService)authenticationStateProvider).UserAuthenticated(User.Email);
+                await sessionStorageService.SetItemAsync("email", User.Email);
+                navigationManage.NavigateTo("/index");
+                Environment.SetEnvironmentVariable("token", User.Token);
+            }
+        }
+        catch (Exception)
+        {
+            MsmError = "Error al iniciar sessión";
+        }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        //User = await LoginService.ActionLogin(new LoginDto
-        //    {
-        //    User="admin",
-        //    Password="admin"
-        //});
-        //Environment.SetEnvironmentVariable("token", User.Token);
+        try
+        {
+            LoginUser.User = Environment.GetEnvironmentVariable("UserAPI");
+            LoginUser.Password = Environment.GetEnvironmentVariable("PasswordAPI");
+            User = await loginService.ActionLogin(LoginUser);
+            Environment.SetEnvironmentVariable("token", User.Token);
+        }
+        catch (Exception)
+        {
+            MsmError = "Error al iniciar sessión, en el inicio.";
+        }
     }
 }
