@@ -13,11 +13,11 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddHttpClient<ILoginService, LoginService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7233/");
+    client.BaseAddress = new Uri("https://localhost:44376/");
 });
 builder.Services.AddHttpClient<IWeatherForecastService, WeatherForecastService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7233/");
+    client.BaseAddress = new Uri("https://localhost:44376/");
 });
 
 builder.Services.AddBlazoredSessionStorage();
