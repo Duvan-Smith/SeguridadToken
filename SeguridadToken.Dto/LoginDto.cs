@@ -1,7 +1,12 @@
-﻿namespace SeguridadToken.Dto;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SeguridadToken.Dto;
 
 public class LoginDto
 {
-    public string User { get; set; }
-    public string Password { get; set; }
+    [Required(ErrorMessage = "El email es obligatorio")]
+    public string User { get; set; } = default!;
+
+    [Required(ErrorMessage = "El campo password es obligatorio")]
+    public string Password { get; set; } = default!;
 }
